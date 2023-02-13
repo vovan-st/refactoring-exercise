@@ -14,7 +14,7 @@ public class Rook extends ChessPiece {
      * @return true if we were able to complete the move. false otherwise
      */
     public boolean moveTo(Position targetPosition) {
-        if (isSamePosition(targetPosition)) return false;
+        if (isTargetPositionValid(targetPosition)) return false;
         //Next - Check to make sure that if the target square is occupied it is not the same color
         ChessPiece targetPiece = getChessboard().getPieceAt(targetPosition);
         if (isTargetPieceSameColour(targetPiece)) return false;
@@ -78,7 +78,7 @@ public class Rook extends ChessPiece {
         return false;
     }
 
-    private boolean isSamePosition(Position targetPosition) {
+    private boolean isTargetPositionValid(Position targetPosition) {
         return targetPosition.x != getPosition().x && targetPosition.y != getPosition().y;
     }
 }
