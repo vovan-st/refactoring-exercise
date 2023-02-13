@@ -14,7 +14,7 @@ public class Rook extends ChessPiece {
      * @return true if we were able to complete the move. false otherwise
      */
     public boolean moveTo(Position targetPosition) {
-        if (isCurrentPosition(targetPosition)) {
+        if (isRankEquals(targetPosition) && isFileEquals(targetPosition)) {
             return false;
         }
 
@@ -35,8 +35,12 @@ public class Rook extends ChessPiece {
         return targetPiece != null && targetPiece.getColor() == getColor();
     }
 
-    private boolean isCurrentPosition(Position targetPosition) {
-        return targetPosition.x != getPosition().x && targetPosition.y != getPosition().y; // FIXME, would be easier to just compare enums, breaks tests though
+    private boolean isRankEquals(Position targetPosition) {
+        return targetPosition.x == getPosition().x;
+    }
+
+    private boolean isFileEquals(Position targetPosition) {
+        return targetPosition.y == getPosition().y;
     }
 
     private boolean isFreeToMoveHorizontally(Position targetPosition) {
