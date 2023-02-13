@@ -34,4 +34,24 @@ public enum Position {
         }
         throw new IllegalArgumentException("There is no position with these offsets " + xOffset + ":" + yOffset);
     }
+
+
+
+    public boolean isVerticalMovementValid(Position targetPosition){
+        boolean isSameFile = targetPosition.x == this.x;
+        boolean isSameRank = targetPosition.y == this.y;
+        return  (isSameRank && !isSameFile) || (!isSameRank && isSameFile);
+    }
+
+    public boolean isHorizontalMovementValid(Position targetPosition){
+        boolean isSameFile = targetPosition.x == this.x;
+        boolean isSameRank = targetPosition.y == this.y;
+        return  (isSameRank && !isSameFile) || (!isSameRank && isSameFile);
+    }
+
+    public boolean isDiagonalMoveValid(Position targetPosition){
+        int movementX = Math.abs(targetPosition.x - this.x);
+        int movementY = Math.abs(targetPosition.y - this.y);
+        return movementY == movementX;
+    }
 }
