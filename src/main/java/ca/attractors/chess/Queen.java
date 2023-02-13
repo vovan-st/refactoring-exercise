@@ -26,13 +26,13 @@ public class Queen extends ChessPiece {
 
     private boolean isTargetPathValid(Position targetPosition) {
         Position start = getPosition();
-        int xDirection = start.x > targetPosition.x ? -1 : 1;
-        int yDirection = start.y > targetPosition.y ? -1 : 1;
+        int xDirection = getDirection(getPosition().getXOffset(), targetPosition.getXOffset());
+        int yDirection = getDirection(getPosition().getYOffset(), targetPosition.getYOffset());
         List<Position> positions = new ArrayList<>();
-        for (int y = start.y; y != targetPosition.y; y += yDirection) {
+        for (int y = start.getYOffset(); y != targetPosition.getYOffset(); y += yDirection) {
             positions.add(Position.getPositionFor(targetPosition.getXOffset(), y));
         }
-        for (int x = start.x; x != targetPosition.x; x += xDirection) {
+        for (int x = start.getXOffset(); x != targetPosition.getXOffset(); x += xDirection) {
             positions.add(Position.getPositionFor(x, targetPosition.getYOffset()));
         }
 
@@ -44,7 +44,7 @@ public class Queen extends ChessPiece {
     private boolean isTargetPositionNotEmpty(Position position) {
         return getChessboard().getPieceAt(position) != null;
     }
-    
+
     private boolean isTargetPositionValidMove(Position targetPosition){
         boolean verticalMoveValid = isVerticalMovementValid(targetPosition);
         boolean horizontalMoveValid = isHorizontalMovementValid(targetPosition);
@@ -68,5 +68,9 @@ public class Queen extends ChessPiece {
         int movementX = Math.abs(targetPosition.x - this.getPosition().x);
         int movementY = Math.abs(targetPosition.y - this.getPosition().y);
         return movementY == movementX;
+    }
+
+    private int getDirection(int current, int target){
+        return Integer.compare(current, target);
     }
 }
