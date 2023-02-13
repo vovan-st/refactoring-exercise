@@ -21,24 +21,7 @@ public class Rook extends ChessPiece {
         //Next - Get all the cells between the source and the target and ensure that they are empty.
         // if this is a horizontal move we need to increment the y coordinate until it is the same as the target's y
         // the increment might be positive or negative.
-        if (targetPosition.x == getPosition().x) {
-            int start = getPosition().getYOffset();
-            int end = targetPosition.getYOffset();
-            int increment = 0;
-            if (start > end)
-                increment = -1;
-            else
-                increment = 1;
-            List<Position> positions = new ArrayList<>();
-            for (int y = start+increment; y != end; y = y + increment) {
-                positions.add(Position.getPositionFor(targetPosition.getXOffset(), y));
-            }
-            for (Position position: positions) {
-                if (getChessboard().getPieceAt(position) != null) {
-                    return false;
-                }
-            }
-        }
+        if (isTargetPathValid(targetPosition)) return false;
         //Next - Get all the cells between the source and the target and ensure that they are empty.
         // if this is a vertical move we need to increment the x coordinate until it is the same as the target's x
         // the increment might be positive or negative.
@@ -65,19 +48,32 @@ public class Rook extends ChessPiece {
         return true;
     }
 
+    private boolean isTargetPathValid(Position targetPosition) {
+        if (targetPosition.x == getPosition().x) {
+            int start = getPosition().getYOffset();
+            int end = targetPosition.getYOffset();
+            int direction = start > end ? -1 : 1;
+            List<Position> positions = new ArrayList<>();
+            for (int y = start + direction; y != end; y = y + direction) {
+                positions.add(Position.getPositionFor(targetPosition.getXOffset(), y));
+            }
+            for (Position position: positions) {
+                if (getChessboard().getPieceAt(position) != null) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private boolean isTargetPieceSameColour(ChessPiece targetPiece) {
         if (targetPiece != null) {
-            if (targetPiece.getColor() == getColor())
-                return true;
+            return targetPiece.getColor() == getColor();
         }
         return false;
     }
 
     private boolean isSamePosition(Position targetPosition) {
-        //if it is not the same x or y coordinate it is not a rooks valid move at all
-        if (targetPosition.x != getPosition().x && targetPosition.y != getPosition().y) {
-            return true;
-        }
-        return false;
+        return targetPosition.x != getPosition().x && targetPosition.y != getPosition().y;
     }
 }
