@@ -17,28 +17,26 @@ public class Queen extends ChessPiece {
         return true;
     }
 
-    private boolean isTargetPieceSameColour(ChessPiece targetPiece) {
-        if (targetPiece != null) {
-            return targetPiece.getColor() == getColor();
-        }
-        return false;
-    }
-
     private boolean isTargetPathValid(Position targetPosition) {
         Position start = getPosition();
-        int xDirection = getDirection(getPosition().getXOffset(), targetPosition.getXOffset());
-        int yDirection = getDirection(getPosition().getYOffset(), targetPosition.getYOffset());
-        List<Position> positions = new ArrayList<>();
-        for (int y = start.getYOffset(); y != targetPosition.getYOffset(); y += yDirection) {
-            positions.add(Position.getPositionFor(targetPosition.getXOffset(), y));
-        }
-        for (int x = start.getXOffset(); x != targetPosition.getXOffset(); x += xDirection) {
-            positions.add(Position.getPositionFor(x, targetPosition.getYOffset()));
+
+        int horizontalPosition = start.getXOffset();
+        int verticalPosition = start.getYOffset();
+        while(horizontalPosition != targetPosition.getXOffset() && verticalPosition != targetPosition.getYOffset()){
+            int xDirection = getDirection(horizontalPosition, targetPosition.getXOffset());
+            int yDirection = getDirection(verticalPosition, targetPosition.getYOffset());
+
+            horizontalPosition = horizontalPosition + xDirection;
+            verticalPosition = verticalPosition + yDirection;
+
+            Position currentMovePosition = Position.getPositionFor(horizontalPosition, verticalPosition);
+
+            if(isTargetPositionNotEmpty(currentMovePosition)){
+                return false;
+            }
         }
 
-        return positions
-                .stream()
-                .anyMatch(this::isTargetPositionNotEmpty);
+        return true;
     }
 
     private boolean isTargetPositionNotEmpty(Position position) {
@@ -71,6 +69,9 @@ public class Queen extends ChessPiece {
     }
 
     private int getDirection(int current, int target){
-        return Integer.compare(current, target);
+        if(current == target){
+            return 0;
+        }
+        return current > target ? -1 : 1;
     }
 }
