@@ -37,10 +37,7 @@ public class Rook extends ChessPiece {
             int start = getPosition().getXOffset();
             int end = targetPosition.getXOffset();
             int increment = getIncrement(targetPosition);
-            List<Position> positions = new ArrayList<>();
-            for (int x = start+increment; x != end; x = x + increment) {
-                positions.add(Position.getPositionFor(x, targetPosition.getYOffset()));
-            }
+            List<Position> positions = getMovePositions(targetPosition, start, end, increment);
             for (Position position: positions) {
                 if (getChessboard().getPieceAt(position) != null) {
                     return true;
@@ -55,10 +52,7 @@ public class Rook extends ChessPiece {
             int start = getPosition().getYOffset();
             int end = targetPosition.getYOffset();
             int increment = getIncrement(targetPosition);
-            List<Position> positions = new ArrayList<>();
-            for (int y = start+increment; y != end; y = y + increment) {
-                positions.add(Position.getPositionFor(targetPosition.getXOffset(), y));
-            }
+            List<Position> positions = getMovePositions(targetPosition, start, end, increment);
             for (Position position: positions) {
                 if (getChessboard().getPieceAt(position) != null) {
                     return true;
@@ -66,6 +60,14 @@ public class Rook extends ChessPiece {
             }
         }
         return false;
+    }
+
+    private static List<Position> getMovePositions(Position targetPosition, int start, int end, int increment) {
+        List<Position> positions = new ArrayList<>();
+        for (int y = start + increment; y != end; y = y + increment) {
+            positions.add(Position.getPositionFor(targetPosition.getXOffset(), y));
+        }
+        return positions;
     }
 
     private int getIncrement(Position targetPosition) {
