@@ -17,43 +17,29 @@ public class Rook extends ChessPiece {
         ChessPiece targetPiece = getChessboard().getPieceAt(targetPosition);
         if (!isTargetPositionOnSameRankOrFile(targetPosition)) return false;
         if (isTargetPieceSameColour(targetPiece)) return false;
-        if (isTargetPathValidY(targetPosition)) return false;
-        if (isTargetPathValidX(targetPosition)) return false;
+        if (isTargetPathValid(targetPosition)) return false;
         getChessboard().movePieceTo(this, targetPosition);
         return true;
     }
 
-    private boolean isTargetPathValidX(Position targetPosition) {
-        int start = getPosition().getXOffset();
-        int end = targetPosition.getXOffset();
-        int direction = start > end ? -1 : 1;
+    private boolean isTargetPathValid(Position targetPosition) {
+        Position start = getPosition();
+        int xDirection = start.x > targetPosition.x ? -1 : 1;
+        int yDirection = start.y > targetPosition.x ? -1 : 1;
         List<Position> positions = new ArrayList<>();
-        for (int x = start+direction; x != end; x = x + direction) {
-            positions.add(Position.getPositionFor(x, targetPosition.getYOffset()));
-        }
-        for (Position position: positions) {
-            if (getChessboard().getPieceAt(position) != null) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isTargetPathValidY(Position targetPosition) {
-
-        int start = getPosition().getYOffset();
-        int end = targetPosition.getYOffset();
-        int direction = start > end ? -1 : 1;
-        List<Position> positions = new ArrayList<>();
-        for (int y = start + direction; y != end; y = y + direction) {
+        for (int y = start.y; y != targetPosition.y; y = y + yDirection) {
             positions.add(Position.getPositionFor(targetPosition.getXOffset(), y));
         }
-        for (Position position: positions) {
-            if (getChessboard().getPieceAt(position) != null) {
-                return true;
-            }
+        for (int x = start.x; x != targetPosition.x; x = x + xDirection) {
+            positions.add(Position.getPositionFor(x, targetPosition.getXOffset()));
         }
-        return false;
+        return positions
+                .stream()
+                .allMatch(this::isTargetPositionEmpty);
+    }
+
+    private boolean isTargetPositionEmpty(Position position) {
+        return getChessboard().getPieceAt(position) != null;
     }
 
     private boolean isTargetPieceSameColour(ChessPiece targetPiece) {
@@ -68,4 +54,5 @@ public class Rook extends ChessPiece {
         boolean isSameRank = targetPosition.y == getPosition().y;
         return  (isSameRank && !isSameFile) || (!isSameRank && isSameFile);
     }
+
 }
