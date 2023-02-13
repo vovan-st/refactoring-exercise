@@ -7,6 +7,17 @@ public class Queen extends ChessPiece {
 
     @Override
     public boolean isValidMove(Position targetPosition) {
-        return false;
+        if (!validRookMove(targetPosition) )
+//                ||
+//                getPositionOccupiedWithSameColor(targetPosition) ||
+//                checkXMoveInvalid(targetPosition) ||
+//                checkYMoveInvalid(targetPosition))
+            return false;
+        return true;
+    }
+
+
+    private boolean validRookMove(Position targetPosition) {
+        return targetPosition.x == getPosition().x || targetPosition.y == getPosition().y;
     }
 }

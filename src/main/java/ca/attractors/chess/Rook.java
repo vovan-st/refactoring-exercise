@@ -14,10 +14,9 @@ public class Rook extends ChessPiece {
      * @return true if we were able to complete the move. false otherwise
      */
 
+    @Override
     public boolean isValidMove(Position targetPosition) {
-        //if it is not the same x or y coordinate it is not a rooks valid move at all
         if (!validRookMove(targetPosition)) return false;
-        //Next - Check to make sure that if the target square is occupied it is not the same color
         if (getPositionOccupiedWithSameColor(targetPosition)) return false;
         if (checkXMoveInvalid(targetPosition)) return false;
         if (checkYMoveInvalid(targetPosition)) return false;
@@ -25,9 +24,6 @@ public class Rook extends ChessPiece {
     }
 
     private boolean checkXMoveInvalid(Position targetPosition) {
-        //Next - Get all the cells between the source and the target and ensure that they are empty.
-        // if this is a horizontal move we need to increment the y coordinate until it is the same as the target's y
-        // the increment might be positive or negative.
         if (targetPosition.y == getPosition().y) {
             int start = getPosition().getXOffset();
             int end = targetPosition.getXOffset();
@@ -39,9 +35,6 @@ public class Rook extends ChessPiece {
     }
 
     private boolean checkYMoveInvalid(Position targetPosition) {
-        //Next - Get all the cells between the source and the target and ensure that they are empty.
-        // if this is a vertical move we need to increment the x coordinate until it is the same as the target's x
-        // the increment might be positive or negative.
         if (targetPosition.x == getPosition().x) {
             int start = getPosition().getYOffset();
             int end = targetPosition.getYOffset();
