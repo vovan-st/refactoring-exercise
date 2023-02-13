@@ -30,7 +30,11 @@ public class Rook extends ChessPiece {
             return false;
         }
         
-        if (!isFreeToMoveHorizontally(position) || !isFreeToMoveVertically(position)) {
+        if (position.y == getPosition().y && !isFreeToMoveVertically(position)) {
+            return false;
+        }
+        
+        if (position.x == getPosition().x && !isFreeToMoveHorizontally(position)) {
             return false;
         }
 
@@ -51,37 +55,22 @@ public class Rook extends ChessPiece {
     }
 
     private boolean isFreeToMoveHorizontally(Position targetPosition) {
-        if (targetPosition.x != getPosition().x) {
-            return true;
-        }
-        int start = getPosition().getYOffset();
-        int end = targetPosition.getYOffset();
-        int increment = start > end ? -1 : 1;
-        List<Position> positions = new ArrayList<>();
-        for (int y = start + increment; y != end; y = y + increment) {
-            positions.add(Position.getPositionFor(targetPosition.getXOffset(), y));
-        }
-        for (Position position: positions) {
-            if (getChessboard().getPieceAt(position) != null) {
-                return false;
-            }
-        }
-        return true;
+        return isPathFree(getPosition().getYOffset(), targetPosition.getYOffset(), targetPosition.getXOffset(), true);
     }
 
     private boolean isFreeToMoveVertically(Position targetPosition) {
-        //Next - Get all the cells between the source and the target and ensure that they are empty.
-        // if this is a vertical move we need to increment the x coordinate until it is the same as the target's x
-        // the increment might be positive or negative.
-        if (targetPosition.y != getPosition().y) {
-            return true;
-        }
-        int start = getPosition().getXOffset();
-        int end = targetPosition.getXOffset();
+        return isPathFree(getPosition().getXOffset(), targetPosition.getXOffset(), targetPosition.getYOffset(), false); 
+    }
+
+    private boolean isPathFree(int start, int end, int offset, boolean isVertical) {
         int increment = start > end ? -1 : 1;
         List<Position> positions = new ArrayList<>();
-        for (int x = start+increment; x != end; x = x + increment) {
-            positions.add(Position.getPositionFor(x, targetPosition.getYOffset()));
+        for (int p = start + increment; p != end; p = p + increment) {
+            if (isVertical) {
+                positions.add(Position.getPositionFor(offset, p));
+            } else {
+                positions.add(Position.getPositionFor(p, offset));
+            }
         }
         for (Position position: positions) {
             if (getChessboard().getPieceAt(position) != null) {
