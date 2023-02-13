@@ -21,6 +21,25 @@ public class Rook extends ChessPiece {
         if (isTargetSquareAvailable(targetPosition)) {
             return false;
         }
+        
+        if (!isFreeToMoveHorizontally(targetPosition) || !isFreeToMoveVertically(targetPosition)) {
+            return false;
+        }
+
+        getChessboard().movePieceTo(this, targetPosition);
+        return true;
+    }
+
+    private boolean isTargetSquareAvailable(Position targetPosition) {
+        ChessPiece targetPiece = getChessboard().getPieceAt(targetPosition);
+        return targetPiece != null && targetPiece.getColor() == getColor();
+    }
+
+    private boolean isCurrentPosition(Position targetPosition) {
+        return targetPosition.x != getPosition().x && targetPosition.y != getPosition().y; // FIXME, would be easier to just compare enums, breaks tests though
+    }
+
+    private boolean isFreeToMoveHorizontally(Position targetPosition) {
         //Next - Get all the cells between the source and the target and ensure that they are empty.
         // if this is a horizontal move we need to increment the y coordinate until it is the same as the target's y
         // the increment might be positive or negative.
@@ -33,7 +52,7 @@ public class Rook extends ChessPiece {
             else
                 increment = 1;
             List<Position> positions = new ArrayList<>();
-            for (int y = start+increment; y != end; y = y + increment) {
+            for (int y = start + increment; y != end; y = y + increment) {
                 positions.add(Position.getPositionFor(targetPosition.getXOffset(), y));
             }
             for (Position position: positions) {
@@ -42,6 +61,10 @@ public class Rook extends ChessPiece {
                 }
             }
         }
+        return true;
+    }
+
+    private boolean isFreeToMoveVertically(Position targetPosition) {
         //Next - Get all the cells between the source and the target and ensure that they are empty.
         // if this is a vertical move we need to increment the x coordinate until it is the same as the target's x
         // the increment might be positive or negative.
@@ -63,18 +86,7 @@ public class Rook extends ChessPiece {
                 }
             }
         }
-        //If we get here - is is a valid move. Physically move the piece and answer true.
-        getChessboard().movePieceTo(this, targetPosition);
         return true;
-    }
-
-    private boolean isTargetSquareAvailable(Position targetPosition) {
-        ChessPiece targetPiece = getChessboard().getPieceAt(targetPosition);
-        return targetPiece != null && targetPiece.getColor() == getColor();
-    }
-
-    private boolean isCurrentPosition(Position targetPosition) {
-        return targetPosition.x != getPosition().x && targetPosition.y != getPosition().y; // FIXME, would be easier to just compare enums, breaks tests though
     }
 
 }
