@@ -36,4 +36,11 @@ public class ChessPiece {
         }
         return false;
     }
+
+    protected int getDirection(int current, int target){
+        if(current == target){
+            return 0;
+        }
+        return current > target ? -1 : 1;
+    }
 }

@@ -35,8 +35,6 @@ public enum Position {
         throw new IllegalArgumentException("There is no position with these offsets " + xOffset + ":" + yOffset);
     }
 
-
-
     public boolean isVerticalMovementValid(Position targetPosition){
         boolean isSameFile = targetPosition.x == this.x;
         boolean isSameRank = targetPosition.y == this.y;

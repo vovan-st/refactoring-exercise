@@ -45,15 +45,8 @@ public class Queen extends ChessPiece {
 
     private boolean isTargetPositionValidMove(Position targetPosition){
         boolean verticalMoveValid = getPosition().isVerticalMovementValid(targetPosition);
-        boolean horizontalMoveValid = getPosition().isHorizontalMovementValid((targetPosition);
+        boolean horizontalMoveValid = getPosition().isHorizontalMovementValid(targetPosition);
         boolean diagonalMoveValid = getPosition().isDiagonalMoveValid(targetPosition);
         return verticalMoveValid || horizontalMoveValid || diagonalMoveValid;
-    }
-
-    private int getDirection(int current, int target){
-        if(current == target){
-            return 0;
-        }
-        return current > target ? -1 : 1;
     }
 }
