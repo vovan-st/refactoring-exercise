@@ -9,17 +9,17 @@ public class Rook extends ChessPiece {
     }
 
     /**
-     *
      * @param targetPosition - the position that we would like to move to
      * @return true if we were able to complete the move. false otherwise
      */
 
     @Override
     public boolean isValidMove(Position targetPosition) {
-        if (!validRookMove(targetPosition)) return false;
-        if (getPositionOccupiedWithSameColor(targetPosition)) return false;
-        if (checkXMoveInvalid(targetPosition)) return false;
-        if (checkYMoveInvalid(targetPosition)) return false;
+        if (!validRookMove(targetPosition) ||
+                getPositionOccupiedWithSameColor(targetPosition) ||
+                checkXMoveInvalid(targetPosition) ||
+                checkYMoveInvalid(targetPosition))
+            return false;
         return true;
     }
 
@@ -46,7 +46,7 @@ public class Rook extends ChessPiece {
     }
 
     private boolean moveBlocked(List<Position> positions) {
-        for (Position position: positions) {
+        for (Position position : positions) {
             if (getChessboard().getPieceAt(position) != null) {
                 return true;
             }
