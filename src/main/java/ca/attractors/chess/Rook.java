@@ -14,11 +14,11 @@ public class Rook extends ChessPiece {
      * @return true if we were able to complete the move. false otherwise
      */
     public boolean moveTo(Position targetPosition) {
-        if (isRankEquals(targetPosition) && isFileEquals(targetPosition)) {
+        if (!isRankEquals(targetPosition) && !isFileEquals(targetPosition)) {
             return false;
         }
 
-        if (isTargetSquareAvailable(targetPosition)) {
+        if (!isTargetSquareAvailable(targetPosition)) {
             return false;
         }
         
@@ -32,7 +32,7 @@ public class Rook extends ChessPiece {
 
     private boolean isTargetSquareAvailable(Position targetPosition) {
         ChessPiece targetPiece = getChessboard().getPieceAt(targetPosition);
-        return targetPiece != null && targetPiece.getColor() == getColor();
+        return targetPiece == null || targetPiece.getColor() != getColor();
     }
 
     private boolean isRankEquals(Position targetPosition) {
