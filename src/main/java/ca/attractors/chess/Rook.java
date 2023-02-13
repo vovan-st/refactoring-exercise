@@ -23,23 +23,16 @@ public class Rook extends ChessPiece {
         //Next - Get all the cells between the source and the target and ensure that they are empty.
         // if this is a horizontal move we need to increment the y coordinate until it is the same as the target's y
         // the increment might be positive or negative.
-        if (targetPosition.x == getPosition().x) {
-            int start = getPosition().getYOffset();
-            int end = targetPosition.getYOffset();
-            int increment = getIncrement(targetPosition);
-            List<Position> positions = new ArrayList<>();
-            for (int y = start+increment; y != end; y = y + increment) {
-                positions.add(Position.getPositionFor(targetPosition.getXOffset(), y));
-            }
-            for (Position position: positions) {
-                if (getChessboard().getPieceAt(position) != null) {
-                    return false;
-                }
-            }
-        }
+        if (checkXPositionInvalid(targetPosition)) return false;
         //Next - Get all the cells between the source and the target and ensure that they are empty.
         // if this is a vertical move we need to increment the x coordinate until it is the same as the target's x
         // the increment might be positive or negative.
+        if (checkYPositionInvalid(targetPosition)) return false;
+        getChessboard().movePieceTo(this, targetPosition);
+        return true;
+    }
+
+    private boolean checkYPositionInvalid(Position targetPosition) {
         if (targetPosition.y == getPosition().y) {
             int start = getPosition().getXOffset();
             int end = targetPosition.getXOffset();
@@ -50,12 +43,29 @@ public class Rook extends ChessPiece {
             }
             for (Position position: positions) {
                 if (getChessboard().getPieceAt(position) != null) {
-                    return false;
+                    return true;
                 }
             }
         }
-        getChessboard().movePieceTo(this, targetPosition);
-        return true;
+        return false;
+    }
+
+    private boolean checkXPositionInvalid(Position targetPosition) {
+        if (targetPosition.x == getPosition().x) {
+            int start = getPosition().getYOffset();
+            int end = targetPosition.getYOffset();
+            int increment = getIncrement(targetPosition);
+            List<Position> positions = new ArrayList<>();
+            for (int y = start+increment; y != end; y = y + increment) {
+                positions.add(Position.getPositionFor(targetPosition.getXOffset(), y));
+            }
+            for (Position position: positions) {
+                if (getChessboard().getPieceAt(position) != null) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private int getIncrement(Position targetPosition) {
