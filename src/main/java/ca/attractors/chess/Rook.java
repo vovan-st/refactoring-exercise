@@ -32,40 +32,37 @@ public class Rook extends ChessPiece {
     }
 
     private boolean isTargetPathValidX(Position targetPosition) {
-        if (targetPosition.y == getPosition().y) {
-            int start = getPosition().getXOffset();
-            int end = targetPosition.getXOffset();
-            int increment = 0;
-            if (start > end)
-                increment = -1;
-            else
-                increment = 1;
-            List<Position> positions = new ArrayList<>();
-            for (int x = start+increment; x != end; x = x + increment) {
-                positions.add(Position.getPositionFor(x, targetPosition.getYOffset()));
-            }
-            for (Position position: positions) {
-                if (getChessboard().getPieceAt(position) != null) {
-                    return true;
-                }
+        int start = getPosition().getXOffset();
+        int end = targetPosition.getXOffset();
+        int increment = 0;
+        if (start > end)
+            increment = -1;
+        else
+            increment = 1;
+        List<Position> positions = new ArrayList<>();
+        for (int x = start+increment; x != end; x = x + increment) {
+            positions.add(Position.getPositionFor(x, targetPosition.getYOffset()));
+        }
+        for (Position position: positions) {
+            if (getChessboard().getPieceAt(position) != null) {
+                return true;
             }
         }
         return false;
     }
 
     private boolean isTargetPathValidY(Position targetPosition) {
-        if (targetPosition.x == getPosition().x) {
-            int start = getPosition().getYOffset();
-            int end = targetPosition.getYOffset();
-            int direction = start > end ? -1 : 1;
-            List<Position> positions = new ArrayList<>();
-            for (int y = start + direction; y != end; y = y + direction) {
-                positions.add(Position.getPositionFor(targetPosition.getXOffset(), y));
-            }
-            for (Position position: positions) {
-                if (getChessboard().getPieceAt(position) != null) {
-                    return true;
-                }
+
+        int start = getPosition().getYOffset();
+        int end = targetPosition.getYOffset();
+        int direction = start > end ? -1 : 1;
+        List<Position> positions = new ArrayList<>();
+        for (int y = start + direction; y != end; y = y + direction) {
+            positions.add(Position.getPositionFor(targetPosition.getXOffset(), y));
+        }
+        for (Position position: positions) {
+            if (getChessboard().getPieceAt(position) != null) {
+                return true;
             }
         }
         return false;
