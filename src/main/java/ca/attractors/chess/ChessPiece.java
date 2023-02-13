@@ -29,4 +29,11 @@ public class ChessPiece {
     public String toString() {
         return getName() + "{" + getColor() + " at: " + getPosition() +"}";
     }
+
+    protected boolean isTargetPieceSameColour(ChessPiece targetPiece) {
+        if (targetPiece != null) {
+            return targetPiece.getColor() == getColor();
+        }
+        return false;
+    }
 }
