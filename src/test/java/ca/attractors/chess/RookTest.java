@@ -4,10 +4,19 @@ package ca.attractors.chess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static ca.attractors.chess.Position.*;
-import static ca.attractors.chess.PieceColor.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static ca.attractors.chess.PieceColor.Black;
+import static ca.attractors.chess.PieceColor.White;
+import static ca.attractors.chess.Position.A1;
+import static ca.attractors.chess.Position.A2;
+import static ca.attractors.chess.Position.A3;
+import static ca.attractors.chess.Position.B1;
+import static ca.attractors.chess.Position.B2;
+import static ca.attractors.chess.Position.C1;
+import static ca.attractors.chess.Position.D1;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RookTest {
     private Board board;
@@ -17,14 +26,11 @@ public class RookTest {
         board = new Board();
     }
 
-
-
     @Test
     void moveToNonHorizontalOrVerticalSpot() {
         Rook rook1 = new Rook(White, board, A1);
         assertFalse(rook1.moveTo(B2));
     }
-
 
     @Test
     void moveVerticallyWithUnoccupiedCells() {
@@ -68,6 +74,6 @@ public class RookTest {
         assertTrue(rook1.moveTo(D1));
         assertSame(rook1.getPosition(), D1);
         assertNull(rook2.getPosition());
-        assertNull (board.getPieceAt(D4));
+        assertNull (board.getPieceAt(A1));
     }
 }
