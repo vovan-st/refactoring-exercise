@@ -1,8 +1,5 @@
 package ca.attractors.chess;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Rook extends ChessPiece {
     protected Rook(PieceColor color, Board board, Position position) {
         super(color, board, position);
@@ -22,21 +19,10 @@ public class Rook extends ChessPiece {
         return true;
     }
 
-    private boolean isTargetPathValid(Position targetPosition) {
-        Position currentPosition = getPosition();
-        while(currentPosition.getXOffset() != targetPosition.getXOffset() && currentPosition.getYOffset() != targetPosition.getYOffset()){
-            int xDirection = getDirection(currentPosition.getXOffset(), targetPosition.getXOffset());
-            int yDirection = getDirection(currentPosition.getYOffset(), targetPosition.getYOffset());
-            currentPosition =  Position.getPositionFor(currentPosition.x + xDirection, currentPosition.y + yDirection);
-            if(isTargetPositionNotEmpty(currentPosition)){
-                return false;
-            }
-        }
-        return true;
-    }
 
-    private boolean isTargetPositionNotEmpty(Position position) {
-        return getChessboard().getPieceAt(position) != null;
+
+    private boolean isTargetPositionEmpty(Position position) {
+        return getChessboard().getPieceAt(position) == null;
     }
 
     private boolean isTargetPositionValidMove(Position targetPosition){

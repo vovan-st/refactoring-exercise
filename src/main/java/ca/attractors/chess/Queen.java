@@ -17,32 +17,6 @@ public class Queen extends ChessPiece {
         return true;
     }
 
-    private boolean isTargetPathValid(Position targetPosition) {
-        Position start = getPosition();
-
-        int horizontalPosition = start.getXOffset();
-        int verticalPosition = start.getYOffset();
-        while(horizontalPosition != targetPosition.getXOffset() && verticalPosition != targetPosition.getYOffset()){
-            int xDirection = getDirection(horizontalPosition, targetPosition.getXOffset());
-            int yDirection = getDirection(verticalPosition, targetPosition.getYOffset());
-
-            horizontalPosition = horizontalPosition + xDirection;
-            verticalPosition = verticalPosition + yDirection;
-
-            Position currentMovePosition = Position.getPositionFor(horizontalPosition, verticalPosition);
-
-            if(isTargetPositionNotEmpty(currentMovePosition)){
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private boolean isTargetPositionNotEmpty(Position position) {
-        return getChessboard().getPieceAt(position) != null;
-    }
-
     private boolean isTargetPositionValidMove(Position targetPosition){
         boolean verticalMoveValid = getPosition().isVerticalMovementValid(targetPosition);
         boolean horizontalMoveValid = getPosition().isHorizontalMovementValid(targetPosition);

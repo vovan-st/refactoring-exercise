@@ -52,4 +52,5 @@ public enum Position {
         int movementY = Math.abs(targetPosition.y - this.y);
         return movementY == movementX;
     }
+
 }

@@ -26,4 +26,8 @@ public class Board {
                 return position;
         return null;
     }
+
+    protected boolean isTargetPositionEmpty(Position targetPosition) {
+        return this.getPieceAt(targetPosition) == null;
+    }
 }

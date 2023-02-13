@@ -43,4 +43,17 @@ public class ChessPiece {
         }
         return current > target ? -1 : 1;
     }
+
+    protected boolean isTargetPathValid(Position targetPosition) {
+        Position currentPosition = getPosition();
+        while(currentPosition.getXOffset() != targetPosition.getXOffset() && currentPosition.getYOffset() != targetPosition.getYOffset()){
+            int xDirection = getDirection(currentPosition.getXOffset(), targetPosition.getXOffset());
+            int yDirection = getDirection(currentPosition.getYOffset(), targetPosition.getYOffset());
+            currentPosition =  Position.getPositionFor(currentPosition.x + xDirection, currentPosition.y + yDirection);
+            if(!board.isTargetPositionEmpty(currentPosition)){
+                return false;
+            }
+        }
+        return true;
+    }
 }
