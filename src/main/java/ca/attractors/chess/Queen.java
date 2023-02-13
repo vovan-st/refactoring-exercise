@@ -8,10 +8,17 @@ public class Queen extends ChessPiece {
     public boolean moveTo(Position targetPosition) {
         ChessPiece targetPiece = getChessboard().getPieceAt(targetPosition);
         if (!isTargetPositionValidMove(targetPosition)) return false;
-//        if (isTargetPieceSameColour(targetPiece)) return false;
+        if (isTargetPieceSameColour(targetPiece)) return false;
 //        if (!isTargetPathValid(targetPosition)) return false;
         getChessboard().movePieceTo(this, targetPosition);
         return true;
+    }
+
+    private boolean isTargetPieceSameColour(ChessPiece targetPiece) {
+        if (targetPiece != null) {
+            return targetPiece.getColor() == getColor();
+        }
+        return false;
     }
 
     private boolean isTargetPositionValidMove(Position targetPosition){
