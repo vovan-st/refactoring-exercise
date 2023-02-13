@@ -21,10 +21,17 @@ public class Rook extends ChessPiece {
         //Next - Get all the cells between the source and the target and ensure that they are empty.
         // if this is a horizontal move we need to increment the y coordinate until it is the same as the target's y
         // the increment might be positive or negative.
-        if (isTargetPathValid(targetPosition)) return false;
+        if (isTargetPathValidY(targetPosition)) return false;
         //Next - Get all the cells between the source and the target and ensure that they are empty.
         // if this is a vertical move we need to increment the x coordinate until it is the same as the target's x
         // the increment might be positive or negative.
+        if (isTargetPathValidX(targetPosition)) return false;
+        //If we get here - is is a valid move. Physically move the piece and answer true.
+        getChessboard().movePieceTo(this, targetPosition);
+        return true;
+    }
+
+    private boolean isTargetPathValidX(Position targetPosition) {
         if (targetPosition.y == getPosition().y) {
             int start = getPosition().getXOffset();
             int end = targetPosition.getXOffset();
@@ -39,16 +46,14 @@ public class Rook extends ChessPiece {
             }
             for (Position position: positions) {
                 if (getChessboard().getPieceAt(position) != null) {
-                    return false;
+                    return true;
                 }
             }
         }
-        //If we get here - is is a valid move. Physically move the piece and answer true.
-        getChessboard().movePieceTo(this, targetPosition);
-        return true;
+        return false;
     }
 
-    private boolean isTargetPathValid(Position targetPosition) {
+    private boolean isTargetPathValidY(Position targetPosition) {
         if (targetPosition.x == getPosition().x) {
             int start = getPosition().getYOffset();
             int end = targetPosition.getYOffset();
