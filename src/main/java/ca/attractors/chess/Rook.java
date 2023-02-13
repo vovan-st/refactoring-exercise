@@ -43,13 +43,6 @@ public class Rook extends ChessPiece {
         return getChessboard().getPieceAt(position) != null;
     }
 
-    private boolean isTargetPieceSameColour(ChessPiece targetPiece) {
-        if (targetPiece != null) {
-            return targetPiece.getColor() == getColor();
-        }
-        return false;
-    }
-
     private boolean isTargetPositionOnSameRankOrFile(Position targetPosition) {
         boolean isSameFile = targetPosition.x == getPosition().x;
         boolean isSameRank = targetPosition.y == getPosition().y;
