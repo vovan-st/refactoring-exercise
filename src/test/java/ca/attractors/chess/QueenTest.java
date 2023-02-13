@@ -26,7 +26,7 @@ public class QueenTest {
     @Test
     void moveVertically() {
         Queen queen = new Queen(White, board, A1);
-//        assertTrue(queen.moveTo(A4));
+        assertTrue(queen.moveTo(A4));
     }
 
     @Test
