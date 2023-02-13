@@ -1,5 +1,8 @@
 package ca.attractors.chess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Queen extends ChessPiece {
     public Queen(PieceColor color, Board board, Position position) {
         super(color, board, position);
@@ -9,7 +12,7 @@ public class Queen extends ChessPiece {
         ChessPiece targetPiece = getChessboard().getPieceAt(targetPosition);
         if (!isTargetPositionValidMove(targetPosition)) return false;
         if (isTargetPieceSameColour(targetPiece)) return false;
-//        if (!isTargetPathValid(targetPosition)) return false;
+        if (!isTargetPathValid(targetPosition)) return false;
         getChessboard().movePieceTo(this, targetPosition);
         return true;
     }
@@ -21,6 +24,27 @@ public class Queen extends ChessPiece {
         return false;
     }
 
+    private boolean isTargetPathValid(Position targetPosition) {
+        Position start = getPosition();
+        int xDirection = start.x > targetPosition.x ? -1 : 1;
+        int yDirection = start.y > targetPosition.y ? -1 : 1;
+        List<Position> positions = new ArrayList<>();
+        for (int y = start.y; y != targetPosition.y; y += yDirection) {
+            positions.add(Position.getPositionFor(targetPosition.getXOffset(), y));
+        }
+        for (int x = start.x; x != targetPosition.x; x += xDirection) {
+            positions.add(Position.getPositionFor(x, targetPosition.getYOffset()));
+        }
+
+        return positions
+                .stream()
+                .anyMatch(this::isTargetPositionNotEmpty);
+    }
+
+    private boolean isTargetPositionNotEmpty(Position position) {
+        return getChessboard().getPieceAt(position) != null;
+    }
+    
     private boolean isTargetPositionValidMove(Position targetPosition){
         boolean verticalMoveValid = isVerticalMovementValid(targetPosition);
         boolean horizontalMoveValid = isHorizontalMovementValid(targetPosition);
