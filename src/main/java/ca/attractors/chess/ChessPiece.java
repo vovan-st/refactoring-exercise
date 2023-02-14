@@ -7,12 +7,16 @@ public abstract class ChessPiece {
     public ChessPiece(PieceColor color, Board board, Position position) {
         this.board = board;
         this.color = color;
-        board.putPieceAt(this, position); //VS: What about the case when we try to put a pieces at the position where another piece is?
+        ChessPiece piece = board.getPieceAt(position);
+        if (piece != null) {
+            throw new IllegalStateException("Can not instantiate a piece at the same position as an existing piece at position: " + position);
+        }
+        board.putPieceAt(this, position);
     }
 
-    public abstract MoveDirection[] getValidMoveDirections();
+    protected abstract MoveDirection[] getValidMoveDirections();
 
-    public abstract MoveLimit getMoveLimit();
+    protected abstract MoveLimit getMoveLimit();
 
     public Board getChessboard() {
         return board;
@@ -35,16 +39,11 @@ public abstract class ChessPiece {
         return getName() + "{" + getColor() + " at: " + getPosition() + "}";
     }
 
-    /**
-     * @param targetPosition - the position that we would like to move to
-     * @return true if we were able to complete the move. false otherwise
-     */
     public boolean moveTo(Position targetPosition) {
         Move move = new Move(this, targetPosition);
         if (!move.isValid()) {
             return false;
         }
-        //If we get here - is a valid move. Physically move the piece and answer true.
         getChessboard().movePieceTo(this, targetPosition);
         return true;
     }
